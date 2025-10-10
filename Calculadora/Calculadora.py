@@ -1,5 +1,5 @@
 from Suma.Suma import Suma
-from resta.Resta import Resta
+from Resta.Resta import Resta
 
 def main():
     print ("Bienvenido a la calculadora EMAG")
