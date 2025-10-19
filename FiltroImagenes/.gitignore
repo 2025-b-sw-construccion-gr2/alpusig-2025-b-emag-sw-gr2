@@ -1,0 +1,23 @@
+# Archivos de Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Entornos virtuales
+venv/
+env/
+ENV/
+
+# Logs
+*.log
+
+# Salida procesada
+salida/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
