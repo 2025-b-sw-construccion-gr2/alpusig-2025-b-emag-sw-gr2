@@ -49,72 +49,100 @@ ORDER BY KEY_TBL.RANK DESC
 ')
 GO
 ```
+---
 
 ### 🔹 Observaciones según principios de Código Limpio
 
 | Principio | Observación |
 |---|---|
-| Nombres significativos | Los nombres `array`, `temp` y `swapped` podrían ser más descriptivos. |
-| Funciones pequeñas | Toda la lógica está en una sola función; sería mejor dividirla (`swap`, `isGreater`, etc.). |
-| Responsabilidad única | La función mezcla comparación e intercambio; separar responsabilidades mejora el mantenimiento. |
-| Comentarios | No hay comentarios ni documentación. |
-| Validaciones | No se valida que la entrada sea un arreglo. |
+| **Nombres significativos** | El nombre `@key_column` es adecuado, pero el script carece de comentarios que indiquen su propósito. |
+| **Funciones cortas / consultas claras** | Todo el proceso (declaración, obtención y ejecución dinámica) está en un solo bloque; podría separarse lógicamente. |
+| **Responsabilidad única** | Mezcla lógica de metadatos (`ObjectProperty`) con consulta dinámica (`EXECUTE`). |
+| **Comentarios** | No existen comentarios que expliquen el objetivo de cada sección. |
+| **Legibilidad y formato** | La indentación es inconsistente, lo que dificulta la lectura. |
+| **Validaciones** | No se verifica si la tabla o columna existen antes de ejecutar la consulta dinámica. |
+
+---
 
 ### 🔹 Olores de código detectados
 
-- Código repetitivo en el intercambio.  
-- Falta de separación de responsabilidades.  
-- Ausencia de validación de entrada.  
-- Nombres poco descriptivos.  
-- Ausencia de documentación.  
+- **Consulta dinámica compleja** y poco legible.  
+- **Dependencia directa** de nombres de tabla sin validación.  
+- **Ausencia de control de errores** (si `@key_column` es `NULL`, el EXEC fallará).  
+- **Falta de comentarios explicativos.**  
+- **Estructura poco modular**, mezcla obtención de datos y ejecución en un solo bloque.  
 
 ### 🔹 Propuestas de mejora
 
 | Nº | Mejora | Descripción | Justificación |
 |---:|---|---|---|
-| 1 | Validar entrada | Verificar que `originalArray` sea un arreglo. | Evita errores en ejecución. |
-| 2 | Crear `swap()` | Extraer el intercambio a una función. | Aumenta legibilidad. |
-| 3 | Crear `isGreater()` | Encapsular la comparación. | Mejora testabilidad. |
-| 4 | Renombrar variables | Usar `sortedArray`, `wasSwapped`. | Mejora claridad. |
-| 5 | Documentar | Agregar comentarios breves. | Facilita el mantenimiento. |
+| 1 | Validar existencia de la tabla | Verificar que `Categories` exista antes de ejecutar. | Evita errores en bases distintas o ausentes. |
+| 2 | Validar `@key_column` | Confirmar que la columna de clave única no sea `NULL`. | Previene fallos en ejecución dinámica. |
+| 3 | Separar secciones lógicas | Dividir la obtención de la columna y la ejecución del `SELECT`. | Mejora comprensión y mantenimiento. |
+| 4 | Añadir comentarios | Explicar el propósito de cada parte del script. | Facilita el entendimiento de otros desarrolladores. |
+| 5 | Mejorar formato e indentación | Aplicar sangría coherente y líneas espaciadas. | Incrementa legibilidad. |
 
 ### 🔹 Versión refactorizada propuesta
 
-```js
-  function swap(arr, i, j) {
-    [arr[i], arr[j]] = [arr[j], arr[i]];
-  }
+```sql
+-- ==============================================
+-- Script: ClaveUnica.sql
+-- Descripción: Identifica la columna de clave única de la tabla Categories
+-- y realiza una búsqueda Full-Text sobre la columna Description.
+-- ==============================================
 
-  function isGreater(a, b) {
-    return a > b;
-  }
+USE Northwind;
+GO
 
-  export default function bubbleSort(originalArray) {
-    if (!Array.isArray(originalArray)) {
-      throw new TypeError('Expected an array as input');
-    }
+DECLARE @table_name sysname = 'Categories';
+DECLARE @key_column sysname;
 
-    const sortedArray = [...originalArray];
-    let wasSwapped;
+-- ✅ Verificar que la tabla exista
+IF OBJECT_ID(@table_name) IS NULL
+BEGIN
+    PRINT '❌ La tabla especificada no existe.';
+    RETURN;
+END;
 
-    do {
-      wasSwapped = false;
-      for (let i = 1; i < sortedArray.length; i++) {
-        if (isGreater(sortedArray[i - 1], sortedArray[i])) {
-          swap(sortedArray, i - 1, i);
-          wasSwapped = true;
-        }
-      }
-    } while (wasSwapped);
+-- ✅ Obtener el nombre de la columna de clave única
+SET @key_column = COL_NAME(
+    OBJECT_ID(@table_name),
+    OBJECTPROPERTY(OBJECT_ID(@table_name), 'TableFulltextKeyColumn')
+);
 
-    return sortedArray;
-  }
+-- ✅ Validar que la clave única se haya obtenido correctamente
+IF @key_column IS NULL
+BEGIN
+    PRINT '❌ No se encontró columna de clave única para la tabla ' + @table_name;
+    RETURN;
+END;
+
+PRINT '✅ Columna de clave única: ' + @key_column;
+
+-- ✅ Ejecutar consulta dinámica con mejor formato y control
+DECLARE @query NVARCHAR(MAX);
+
+SET @query = N'
+SELECT 
+    FT_TBL.Description, 
+    KEY_TBL.RANK
+FROM ' + QUOTENAME(@table_name) + N' AS FT_TBL
+INNER JOIN FREETEXTTABLE(' + QUOTENAME(@table_name) + N', Description,
+    ''How can I make my own beers and ales?'') AS KEY_TBL
+ON FT_TBL.' + QUOTENAME(@key_column) + N' = KEY_TBL.[KEY]
+WHERE KEY_TBL.RANK >= 10
+ORDER BY KEY_TBL.RANK DESC;
+';
+
+EXEC sp_executesql @query;
+GO
+
   ```
 
-### 🔹 Conclusión (BubbleSort)
+### 🔹 Conclusión (ClaveUnica.sql)
 
-El archivo `BubbleSort.js` es funcional, pero puede beneficiarse de una mejor legibilidad y estructura modular.  
-Las mejoras propuestas promueven un código más claro, con responsabilidad única, nombres descriptivos y validaciones seguras.
+El script **`ClaveUnica.sql`** cumple su función original, pero su estructura puede mejorarse para aumentar **claridad, seguridad y mantenibilidad**.  
+Las mejoras aplicadas (validaciones, comentarios y formato limpio) aseguran que el código sea más **robusto**, **comprensible** y siga los principios de **código limpio y responsabilidad única**.
 
 ---
 
@@ -291,3 +319,4 @@ Las mejoras propuestas promueven un código más claro, con responsabilidad úni
 
 
   Un código limpio no solo funciona bien: se entiende, se extiende y se mantiene con facilidad.
+
