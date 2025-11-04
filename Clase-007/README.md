@@ -25,8 +25,7 @@ La implementación de SCM se realiza mediante Sistemas de Control de Versiones (
 | **Git** | Distribuido (DVCS) | Estándar de facto; cada desarrollador tiene una copia completa del repositorio e historial. |
 | **Subversion (SVN)** | Centralizado (CVCS) | Un único servidor "maestro" contiene todo el historial. |
 | **Mercurial (Hg)** | Distribuido (DVCS) | Similar a Git; fue conocido por curva de aprendizaje más suave. |
-
-> **Nota:** Herramientas como Docker ayudan a gestionar configuraciones de entornos de desarrollo y producción a través de contenedores.
+| **Docker** | No se clasifica como Centralizado o Distribuido | Se usa para gestionar configuraciones de entornos de desarrollo y producción a través de contenedores. |
 
 ## ✅ Beneficios Principales
 * Trazabilidad completa de cambios.
@@ -37,3 +36,4 @@ La implementación de SCM se realiza mediante Sistemas de Control de Versiones (
 ## 📝 Conclusión
 
 La SCM es un pilar esencial e innegociable para la **sostenibilidad**, **escalabilidad** y **profesionalización** de cualquier proyecto de software, mejorando la calidad y la organización del equipo.
+
