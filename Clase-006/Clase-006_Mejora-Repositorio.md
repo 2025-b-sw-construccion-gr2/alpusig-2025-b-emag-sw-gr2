@@ -18,9 +18,9 @@ Se busca identificar olores de código, proponer refactorizaciones y justificar 
 
 | Archivo | Ruta en el repositorio | Descripción |
 |---|---|---|
-| `ClaveUnica.sql` | `/src/` | Identificación del nombre de la columna de la clave única. |
-| `DoublyLinkedList.js` | `/src/data-structures/linked-list/doubly-linked-list/DoublyLinkedList.js` | Implementa una lista doblemente enlazada. |
-| `DoublyLinkedList.js` | `/src/data-structures/linked-list/doubly-linked-list/DoublyLinkedList.js` | Implementa una lista doblemente enlazada. |
+| `ClaveUnica.sql` | `/src/sql` | Identificación del nombre de la columna de la clave única. |
+| `BúsquedasFechasAccess.sql` | `/src/sql` | Búsquedas con fechas en Access.sql. |
+| `SQL_Quick_Reference.sql` | `/src/sql/` | Documento que reúne las principales sentencias SQL con su sintaxis general. |
 
 ---
 
@@ -138,7 +138,7 @@ EXEC sp_executesql @query;
 GO
 
   ```
-
+---
 ### 🔹 Conclusión (ClaveUnica.sql)
 
 El script **`ClaveUnica.sql`** cumple su función original, pero su estructura puede mejorarse para aumentar **claridad, seguridad y mantenibilidad**.  
@@ -146,177 +146,306 @@ Las mejoras aplicadas (validaciones, comentarios y formato limpio) aseguran que 
 
 ---
 
-## 4️⃣ Análisis del archivo 2: `DoublyLinkedList.js`
+## 3️⃣ Análisis del archivo 2: `Búsquedas con fechas en Access.sql`
 
-### Código original (simplificado)
-```js
-  export default class DoublyLinkedList {
-    constructor() {
-      this.head = null;
-      this.tail = null;
-    }
-
-    append(value) {
-      const newNode = { value, next: null, prev: this.tail };
-      if (this.tail) {
-        this.tail.next = newNode;
-      } else {
-        this.head = newNode;
-      }
-      this.tail = newNode;
-      return this;
-    }
-
-    prepend(value) {
-      const newNode = { value, next: this.head, prev: null };
-      if (this.head) {
-        this.head.prev = newNode;
-      } else {
-        this.tail = newNode;
-      }
-      this.head = newNode;
-      return this;
-    }
-
-    delete(value) {
-      if (!this.head) return null;
-      let current = this.head;
-      while (current) {
-        if (current.value === value) {
-          if (current.prev) current.prev.next = current.next;
-          if (current.next) current.next.prev = current.prev;
-          if (current === this.head) this.head = current.next;
-          if (current === this.tail) this.tail = current.prev;
-          return current;
-        }
-        current = current.next;
-      }
-      return null;
-    }
-  }
-  ```
-
+### Código original
+```sql
+SELECT * FROM vuelos WHERE
+DateDiff('y',fechadesde,now())>=0
+and DateDiff('y',fechahasta,nom())<=0
+```
+---
   ### 🔹 Observaciones según principios de Código Limpio
-
-  | Principio | Observación |
-  |---|---|
-  | Nombres descriptivos | Correctos en su mayoría (`append`, `prepend`, `delete`). |
-  | Responsabilidad única | Cada método cumple un propósito claro, pero puede documentarse mejor. |
-  | Evitar repetición | La creación de nodos podría centralizarse en un método auxiliar. |
-  | Validaciones | No se validan los valores antes de insertarlos o eliminarlos. |
-  | Comentarios | No hay comentarios explicativos sobre el flujo de los enlaces. |
+| Principio                               | Observación                                                                                                                                          |
+| --------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Nombres significativos**              | Los nombres `fechadesde` y `fechahasta` son comprensibles, pero pueden mejorarse a `fecha_inicio` y `fecha_fin` para mantener coherencia y claridad. |
+| **Funciones cortas / consultas claras** | La consulta cumple una sola función, pero el uso de `DateDiff()` hace que la intención sea menos directa y más difícil de leer.                      |
+| **Responsabilidad única**               | El código mezcla la lógica de comparación con cálculos innecesarios; debería centrarse solo en evaluar si la fecha actual está dentro del rango.     |
+| **Comentarios**                         | No hay comentarios que expliquen el propósito ni el contexto del código, lo que dificulta su mantenimiento.                                          |
+| **Legibilidad y formato**               | La sintaxis es correcta, pero el error tipográfico (`nom()` en lugar de `now()`) y la complejidad de la función reducen la claridad.                 |
+| **Validaciones**                        | No se contemplan casos de fechas nulas (`NULL`), lo que podría causar resultados inesperados o errores de ejecución.                                 |
+---
 
   ### 🔹 Olores de código detectados
 
-  - Código duplicado en la creación de nodos (append y prepend).  
-  - Falta de validación de entrada (null, undefined).  
-  - Ausencia de documentación sobre cómo se gestionan los enlaces.  
-  - No se maneja el caso de eliminar valores inexistentes con mensajes o excepciones.  
+  - Uso innecesario de la función DateDiff() para comparaciones simples.  
+  - Error de escritura (nom() en lugar de now()).  
+  - Falta de validación ante valores NULL.  
+  - Dependencia del idioma o formato regional de las fechas.
+  - Ausencia de comentarios y documentación.  
 
   ### 🔹 Propuestas de mejora
 
-  | Nº | Mejora | Descripción | Justificación |
-  |---:|---|---|---|
-  | 1 | Centralizar creación de nodos | Crear método `createNode(value, prev, next)`. | Evita duplicación. |
-  | 2 | Validar valores | Asegurar que `value` no sea `null` o `undefined`. | Previene errores. |
-  | 3 | Agregar comentarios | Explicar cómo se enlazan y desenlazan los nodos. | Mejora comprensión. |
-  | 4 | Métodos auxiliares | Agregar `isEmpty()`, `size()` o `toArray()`. | Aumenta reutilización y facilita pruebas. |
+| Nº | Mejora                        | Descripción                                                        | Justificación                           |
+| -: | ----------------------------- | ------------------------------------------------------------------ | --------------------------------------- |
+|  1 | Simplificar las comparaciones | Reemplazar `DateDiff()` por comparaciones directas (`<=`, `>=`).   | Mejora la legibilidad y precisión.      |
+|  2 | Corregir función errónea      | Cambiar `nom()` por `now()`.                                       | Evita errores de ejecución.             |
+|  3 | Validar fechas nulas          | Agregar condiciones `IS NOT NULL`.                                 | Evita resultados inesperados o errores. |
+|  4 | Normalizar nombres            | Cambiar `fechadesde` → `fecha_inicio`, `fechahasta` → `fecha_fin`. | Facilita comprensión y coherencia.      |
+|  5 | Agregar comentarios claros    | Incluir descripción del propósito de la consulta.                  | Mejora la mantenibilidad y comprensión. |
+
 
   ### 🔹 Versión refactorizada propuesta
 
-  ```js
-  class DoublyLinkedListNode {
-    constructor(value, prev = null, next = null) {
-      this.value = value;
-      this.prev = prev;
-      this.next = next;
-    }
-  }
+  ```sql
+-- ===========================================
+-- Script: Búsqueda de vuelos activos por fecha actual
+-- Objetivo: Obtener los registros de vuelos cuya fecha actual
+-- se encuentre dentro del intervalo de validez.
+-- ===========================================
 
-  export default class DoublyLinkedList {
-    constructor() {
-      this.head = null;
-      this.tail = null;
-      this._size = 0;
-    }
+SELECT *
+FROM vuelos
+WHERE fecha_inicio <= Date()
+  AND fecha_fin >= Date()
+  AND fecha_inicio IS NOT NULL
+  AND fecha_fin IS NOT NULL;
 
-    createNode(value, prev = null, next = null) {
-      if (value === null || value === undefined) {
-        throw new Error('Node value cannot be null or undefined');
-      }
-      return new DoublyLinkedListNode(value, prev, next);
-    }
-
-    append(value) {
-      const newNode = this.createNode(value, this.tail);
-      if (this.tail) this.tail.next = newNode;
-      else this.head = newNode;
-      this.tail = newNode;
-      this._size++;
-      return this;
-    }
-
-    prepend(value) {
-      const newNode = this.createNode(value, null, this.head);
-      if (this.head) this.head.prev = newNode;
-      else this.tail = newNode;
-      this.head = newNode;
-      this._size++;
-      return this;
-    }
-
-    delete(value) {
-      if (!this.head) return null;
-      let current = this.head;
-      while (current) {
-        if (current.value === value) {
-          if (current.prev) current.prev.next = current.next;
-          if (current.next) current.next.prev = current.prev;
-          if (current === this.head) this.head = current.next;
-          if (current === this.tail) this.tail = current.prev;
-          this._size--;
-          return current;
-        }
-        current = current.next;
-      }
-      return null;
-    }
-
-    isEmpty() {
-      return this._size === 0;
-    }
-
-    toArray() {
-      const elements = [];
-      let current = this.head;
-      while (current) {
-        elements.push(current.value);
-        current = current.next;
-      }
-      return elements;
-    }
-
-    size() {
-      return this._size;
-    }
-  }
   ```
 
-  ### 🔹 Conclusión (DoublyLinkedList)
+  ### 🔹 Conclusión (Búsquedas con fechas en Access)
 
-  El archivo `DoublyLinkedList.js` presenta una buena estructura, pero puede mejorarse mediante la centralización de la creación de nodos, validación de valores y agregación de métodos utilitarios.  
-  Estas mejoras refuerzan los principios de Código Limpio, favoreciendo la reutilización, modularidad y claridad del código.
+El código original logra la funcionalidad deseada, pero presenta baja legibilidad, errores menores y falta de claridad en la intención.
+Con la refactorización propuesta, el código se alinea con los principios de Código Limpio, ofreciendo una consulta más simple, eficiente y comprensible, adecuada para entornos de trabajo colaborativos y mantenibles a largo plazo.
 
-  ---
+---
 
-  ## ✅ Conclusión general del taller
+## 4️⃣ Análisis del archivo 3: `SQL_Quick_Reference.sql`  
 
-  Tras analizar ambos archivos, se evidencia que incluso proyectos bien estructurados pueden beneficiarse de aplicar los principios de Código Limpio. En particular:
+### Código original (fragmento representativo)
+```sql
+AND / OR	SELECT column_name(s)
+FROM table_name
+WHERE condition
+AND|OR condition
 
-  - La modularización y nombres descriptivos facilitan la comprensión.  
-  - La validación de datos y comentarios breves previenen errores.  
-  - La claridad del flujo lógico reduce la deuda técnica y mejora la mantenibilidad.
+ALTER TABLE	ALTER TABLE table_name
+ADD column_name datatype
+or
+ALTER TABLE table_name
+DROP COLUMN column_name
 
+DELETE	DELETE FROM table_name
+WHERE some_column=some_value
+or
+DELETE FROM table_name
+(Note: Deletes the entire table!!)
+````
 
-  Un código limpio no solo funciona bien: se entiende, se extiende y se mantiene con facilidad.
+---
+
+### 🔹 Observaciones según principios de Código Limpio
+
+| Principio                      | Observación                                                                                                                    |
+| ------------------------------ | ------------------------------------------------------------------------------------------------------------------------------ |
+| **Nombres significativos**     | Las sentencias SQL son correctas, pero los ejemplos carecen de nombres descriptivos en tablas o columnas.                      |
+| **Estructura clara**           | El archivo mezcla más de 30 comandos sin organización ni separación por categorías (DDL, DML, DCL, TCL).                       |
+| **Comentarios útiles**         | No hay comentarios explicativos sobre el propósito o efecto de cada sentencia.                                                 |
+| **Evitar duplicación**         | Varias instrucciones (`DELETE`, `ALTER TABLE`, `CREATE INDEX`) se repiten con mínimas variaciones.                             |
+| **Consistencia de formato**    | El uso de mayúsculas, saltos de línea y espaciado es irregular, dificultando la lectura.                                       |
+| **Legibilidad y presentación** | Al estar en formato de tabla plana sin encabezados o contextos, no resulta claro cuál es el objetivo educativo de cada bloque. |
+
+---
+
+### 🔹 Olores de código detectados
+
+* **Duplicación** de ejemplos y sintaxis redundante.
+* **Ausencia de estructura jerárquica** (mezcla de DDL, DML, DCL).
+* **Falta de comentarios explicativos.**
+* **Formato inconsistente** (uso errático de mayúsculas, espacios y saltos).
+* **Ausencia de contexto práctico** (tablas o datos ficticios que faciliten comprensión).
+
+---
+
+### 🔹 Propuestas de mejora
+
+| Nº | Mejora                               | Descripción                                              | Justificación                                        |
+| -- | ------------------------------------ | -------------------------------------------------------- | ---------------------------------------------------- |
+| 1  | **Organizar por categorías SQL**     | Dividir en secciones DDL, DML, DCL, TCL y Funciones.     | Facilita el estudio y comprensión.                   |
+| 2  | **Estandarizar formato SQL**         | Mantener comandos en mayúsculas y nombres en minúsculas. | Aumenta la legibilidad y profesionalismo.            |
+| 3  | **Eliminar redundancias**            | Consolidar ejemplos repetidos con notas aclaratorias.    | Reduce confusión y mejora la limpieza del documento. |
+| 4  | **Agregar ejemplos reales**          | Usar tablas como `empleados`, `productos`, `clientes`.   | Facilita la comprensión práctica.                    |
+| 5  | **Agregar comentarios explicativos** | Breves descripciones del objetivo de cada comando.       | Mejora la utilidad pedagógica.                       |
+
+---
+
+### 🔹 Versión refactorizada propuesta
+
+```sql
+-- ============================================================
+-- SECCIÓN DDL (Data Definition Language)
+-- ============================================================
+
+-- Crear una nueva base de datos
+CREATE DATABASE tienda;
+
+-- Crear tabla de empleados
+CREATE TABLE empleados (
+  id INT PRIMARY KEY,
+  nombre VARCHAR(100),
+  cargo VARCHAR(50),
+  salario DECIMAL(10,2)
+);
+
+-- Modificar tabla (añadir columna)
+ALTER TABLE empleados
+ADD COLUMN fecha_ingreso DATE;
+
+-- Eliminar columna
+ALTER TABLE empleados
+DROP COLUMN fecha_ingreso;
+
+-- Eliminar tabla
+DROP TABLE empleados;
+
+-- ============================================================
+-- SECCIÓN DML (Data Manipulation Language)
+-- ============================================================
+
+-- Insertar un registro
+INSERT INTO empleados (id, nombre, cargo, salario)
+VALUES (1, 'Ana Torres', 'Analista', 1800.00);
+
+-- Consultar datos
+SELECT nombre, cargo, salario
+FROM empleados
+WHERE salario > 1500
+ORDER BY salario DESC;
+
+-- Actualizar registros
+UPDATE empleados
+SET salario = salario * 1.10
+WHERE cargo = 'Analista';
+
+-- Eliminar un registro
+DELETE FROM empleados
+WHERE id = 1;
+
+-- Truncar tabla (eliminar todos los registros)
+TRUNCATE TABLE empleados;
+
+-- ============================================================
+-- SECCIÓN DE FILTRADO Y CONDICIONES
+-- ============================================================
+
+-- Uso de AND / OR
+SELECT * FROM empleados
+WHERE cargo = 'Analista' OR salario > 2000;
+
+-- Uso de BETWEEN
+SELECT nombre, salario
+FROM empleados
+WHERE salario BETWEEN 1500 AND 2500;
+
+-- Uso de IN
+SELECT nombre
+FROM empleados
+WHERE cargo IN ('Analista', 'Gerente', 'Supervisor');
+
+-- Uso de LIKE
+SELECT nombre
+FROM empleados
+WHERE nombre LIKE 'A%';
+
+-- ============================================================
+-- SECCIÓN DE FUNCIONES Y AGRUPACIÓN
+-- ============================================================
+
+-- Agrupar por cargo
+SELECT cargo, AVG(salario) AS promedio_salarial
+FROM empleados
+GROUP BY cargo
+HAVING AVG(salario) > 1600;
+
+-- ============================================================
+-- SECCIÓN DE JOINS
+-- ============================================================
+
+-- INNER JOIN
+SELECT empleados.nombre, departamentos.nombre AS departamento
+FROM empleados
+INNER JOIN departamentos
+ON empleados.id_departamento = departamentos.id;
+
+-- LEFT JOIN
+SELECT empleados.nombre, departamentos.nombre AS departamento
+FROM empleados
+LEFT JOIN departamentos
+ON empleados.id_departamento = departamentos.id;
+
+-- RIGHT JOIN
+SELECT empleados.nombre, departamentos.nombre AS departamento
+FROM empleados
+RIGHT JOIN departamentos
+ON empleados.id_departamento = departamentos.id;
+
+-- FULL JOIN
+SELECT empleados.nombre, departamentos.nombre AS departamento
+FROM empleados
+FULL JOIN departamentos
+ON empleados.id_departamento = departamentos.id;
+
+-- ============================================================
+-- SECCIÓN DCL (Data Control Language)
+-- ============================================================
+
+-- Conceder permisos
+GRANT SELECT, INSERT ON empleados TO 'usuario_app';
+
+-- Revocar permisos
+REVOKE INSERT ON empleados FROM 'usuario_app';
+
+-- ============================================================
+-- SECCIÓN TCL (Transaction Control Language)
+-- ============================================================
+
+BEGIN TRANSACTION;
+UPDATE empleados SET salario = salario * 1.05;
+COMMIT;
+
+-- ============================================================
+-- SECCIÓN DE VISTAS E ÍNDICES
+-- ============================================================
+
+-- Crear una vista
+CREATE VIEW vista_empleados AS
+SELECT nombre, cargo, salario
+FROM empleados
+WHERE salario > 1500;
+
+-- Crear índice
+CREATE INDEX idx_empleados_salario
+ON empleados (salario);
+
+-- ============================================================
+-- SECCIÓN DE OPERADORES Y UNIONES
+-- ============================================================
+
+-- UNION (elimina duplicados)
+SELECT nombre FROM empleados
+UNION
+SELECT nombre FROM clientes;
+
+-- UNION ALL (incluye duplicados)
+SELECT nombre FROM empleados
+UNION ALL
+SELECT nombre FROM clientes;
+
+-- SELECT DISTINCT (valores únicos)
+SELECT DISTINCT cargo FROM empleados;
+
+-- SELECT TOP (dependiendo del motor)
+SELECT TOP 5 * FROM empleados;
+```
+
+---
+
+### 🔹 Conclusión del análisis
+
+El documento original **SQL Quick Reference** contiene información valiosa, pero su estructura era desordenada, con repeticiones y sin contexto.
+Tras aplicar los principios de **Código Limpio**, el resultado es un archivo más didáctico, coherente y profesional.
+La división por secciones, los ejemplos significativos y los comentarios facilitan el uso del material tanto en entornos educativos como técnicos.
+
+---
+
 
