@@ -1,9 +1,9 @@
 # Clase 006 - Taller: Aplicando Principios de Código Limpio en Proyectos Reales
 
-**Repositorio analizado:** [trekhleb/javascript-algorithms](https://github.com/trekhleb/javascript-algorithms)  
-**Lenguaje:** JavaScript  
-**Estudiante:** Evelin Rocha, Andrea Chicaiza  
-**Fecha:** 2 de noviembre de 2025
+**Repositorio analizado:** [cesaralvrz/recursos-programación](https://github.com/Acadeller/recursos-programacion)  
+**Lenguaje:** SQL  
+**Estudiante:** Erick Alpusig - Claudio Peñaherrera - Saúl Tualombo  
+**Fecha:** 4 de noviembre de 2025
 
 ---
 
@@ -18,31 +18,36 @@ Se busca identificar olores de código, proponer refactorizaciones y justificar 
 
 | Archivo | Ruta en el repositorio | Descripción |
 |---|---|---|
-| `BubbleSort.js` | `/src/algorithms/sorting/bubble-sort/BubbleSort.js` | Implementa el algoritmo Bubble Sort. |
+| `ClaveUnica.sql` | `/src/` | Identificación del nombre de la columna de la clave única. |
+| `DoublyLinkedList.js` | `/src/data-structures/linked-list/doubly-linked-list/DoublyLinkedList.js` | Implementa una lista doblemente enlazada. |
 | `DoublyLinkedList.js` | `/src/data-structures/linked-list/doubly-linked-list/DoublyLinkedList.js` | Implementa una lista doblemente enlazada. |
 
 ---
 
-## 3️⃣ Análisis del archivo 1: `BubbleSort.js`
+## 3️⃣ Análisis del archivo 1: `ClaveUnica.sql`
 
-### Código original (simplificado)
-```js
-  export default function bubbleSort(originalArray) {
-    const array = [...originalArray];
-    let swapped;
-    do {
-      swapped = false;
-      for (let i = 1; i < array.length; i++) {
-        if (array[i - 1] > array[i]) {
-          const temp = array[i - 1];
-          array[i - 1] = array[i];
-          array[i] = temp;
-          swapped = true;
-        }
-      }
-    } while (swapped);
-    return array;
-  }
+### Código original
+```sql
+USE Northwind
+GO
+DECLARE @key_column sysname
+SET @key_column = Col_Name(Object_Id('Categories'),
+ObjectProperty(Object_id('Categories'),
+'TableFulltextKeyColumn')
+)
+print @key_column
+EXECUTE ('SELECT Description, KEY_TBL.RANK
+FROM Categories FT_TBL
+INNER JOIN
+FreetextTable (Categories, Description,
+''How can I make my own beers and ales?'') AS KEY_TBL
+ON FT_TBL.'
++ @key_column
++' = KEY_TBL.[KEY]
+WHERE KEY_TBL.RANK >= 10
+ORDER BY KEY_TBL.RANK DESC
+')
+GO
 ```
 
 ### 🔹 Observaciones según principios de Código Limpio
@@ -283,5 +288,6 @@ Las mejoras propuestas promueven un código más claro, con responsabilidad úni
   - La modularización y nombres descriptivos facilitan la comprensión.  
   - La validación de datos y comentarios breves previenen errores.  
   - La claridad del flujo lógico reduce la deuda técnica y mejora la mantenibilidad.
+
 
   Un código limpio no solo funciona bien: se entiende, se extiende y se mantiene con facilidad.
