@@ -302,7 +302,7 @@ Objetivo: **100% de cobertura**
 
 **Merge exitoso hacia develop:**
 
-![PR Aprobado](ruta/a/tu/captura-pr-aprobado.png)
+![PR Aprobado](https://github.com/ElErick-MG/mi-sitio/blob/dc91d990e6de4053af9ac72eac0f2a1368949f6b/img/PULL-ACCEPTED.png)
 
 *Captura del Pull Request aprobado sin conflictos y fusionado exitosamente a la rama develop.*
 
