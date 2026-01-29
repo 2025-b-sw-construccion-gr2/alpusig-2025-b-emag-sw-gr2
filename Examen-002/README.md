@@ -202,12 +202,15 @@ Examen-002/
 ├── .github/
 │   └── workflows/
 │       └── ci.yml              # Configuración del pipeline CI/CD
+├── docs/
+│   └── PULL_REQUESTS.md        # Guía de Pull Requests
 ├── src/
 │   ├── __init__.py
 │   └── logic.py                # Lógica principal del gestor de tareas
 ├── tests/
 │   ├── __init__.py
 │   └── test_logic.py           # Pruebas unitarias
+├── example.py                  # Ejemplo de uso del sistema
 ├── requirements.txt            # Dependencias del proyecto
 ├── setup.py                    # Configuración para build
 ├── setup.cfg                   # Configuración de herramientas
@@ -216,15 +219,25 @@ Examen-002/
 
 ## 🔀 Flujo de Trabajo Git
 
+**📖 Para una guía completa, consulta: [docs/PULL_REQUESTS.md](docs/PULL_REQUESTS.md)**
+
 ### Crear una nueva funcionalidad:
 
 1. **Crear rama feature:**
    ```bash
+   git checkout develop
+   git pull origin develop
    git checkout -b feature/nueva-funcionalidad
    ```
 
 2. **Hacer cambios y commit:**
    ```bash
+   # Verificar calidad
+   flake8 src/
+   black --check .
+   pytest tests/ -v
+   
+   # Commit
    git add .
    git commit -m "feat: descripción de la funcionalidad"
    ```
