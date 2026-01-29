@@ -32,7 +32,7 @@ class TaskManager:
             "id": len(self.tasks) + 1,
             "title": title.strip(),
             "description": description.strip(),
-            "completed": False
+            "completed": False,
         }
         self.tasks.append(task)
         return task
