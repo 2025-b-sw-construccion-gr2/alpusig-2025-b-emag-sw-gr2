@@ -281,7 +281,7 @@ Objetivo: **100% de cobertura**
 
 **Todos los checks pasaron correctamente:**
 
-![Checks Pasando](ruta/a/tu/captura-checks-pasando.png)
+![Checks Pasando](https://github.com/ElErick-MG/mi-sitio/blob/dc91d990e6de4053af9ac72eac0f2a1368949f6b/img/Test-Pasados.png)
 
 *Captura mostrando los 4 jobs completados exitosamente: Lint, Format, Test y Build.*
 
@@ -291,7 +291,8 @@ Objetivo: **100% de cobertura**
 
 **Comentarios en el Pull Request:**
 
-![Revisión de Código](ruta/a/tu/captura-comentarios-pr.png)
+![Revisión de Código](https://github.com/ElErick-MG/mi-sitio/blob/dc91d990e6de4053af9ac72eac0f2a1368949f6b/img/comentario1.png)
+![Revisión de Código2](https://github.com/ElErick-MG/mi-sitio/blob/dc91d990e6de4053af9ac72eac0f2a1368949f6b/img/comentario2.png)
 
 *Captura mostrando los comentarios realizados durante la revisión del código en archivos como example.py y PULL_REQUESTS.md.*
 
@@ -311,7 +312,7 @@ Objetivo: **100% de cobertura**
 
 **GitHub Actions - Historial:**
 
-![Historial Actions](ruta/a/tu/captura-actions-historial.png)
+![Historial Actions](https://github.com/ElErick-MG/mi-sitio/blob/dc91d990e6de4053af9ac72eac0f2a1368949f6b/img/ACTION-COMPLETO.png)
 
 *Captura del historial de ejecuciones del pipeline mostrando todas las ejecuciones exitosas.*
 
