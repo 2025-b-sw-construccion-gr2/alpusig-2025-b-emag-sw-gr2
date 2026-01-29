@@ -13,7 +13,7 @@ if os.path.exists(readme_path):
 setup(
     name="task-manager",
     version="1.0.0",
-    author="Erick Maguiña",
+    author="Erick Medardo Alpusig",
     description="Sistema de Gestión de Tareas - Proyecto CI/CD",
     long_description=long_description,
     long_description_content_type="text/markdown",
