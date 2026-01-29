@@ -83,7 +83,7 @@ jobs:
           pytest tests/ -v --cov=src --cov-report=term-missing --cov-report=html
       
       - name: Subir reporte de cobertura
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: coverage-report
           path: Examen-002/htmlcov/
@@ -116,7 +116,7 @@ jobs:
           ls -la dist/
       
       - name: Subir artefactos del build
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: python-package
           path: Examen-002/dist/
