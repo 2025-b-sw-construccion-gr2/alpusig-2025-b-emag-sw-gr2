@@ -6,7 +6,7 @@
 
 Sistema sencillo de gestión de tareas desarrollado en Python con integración continua usando GitHub Actions. Este proyecto demuestra la implementación de buenas prácticas de desarrollo, incluyendo linting, formateo automático, pruebas unitarias con cobertura, y un pipeline de CI/CD completo.
 
-**Autor:** Erick Maguiña  
+**Autores:** Erick Alpusig - Saúl Tualombo - Claudio Peñaherrera
 **Fecha:** Enero 2026  
 **Repositorio:** [alpusig-2025-b-emag-sw-gr2](https://github.com/2025-b-sw-construccion-gr2/alpusig-2025-b-emag-sw-gr2)
 
