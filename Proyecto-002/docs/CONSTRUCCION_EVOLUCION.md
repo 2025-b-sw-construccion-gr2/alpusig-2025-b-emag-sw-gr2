@@ -665,6 +665,39 @@ La arquitectura modular y las prácticas establecidas permiten:
 | **Build Success Rate** | 100% | ✅ Estable |
 | **PRs Revisados** | 100% | ✅ Completo |
 | **Tiempo promedio CI** | 2-3 min | ✅ Rápido |
+| **Feature Branches usadas** | 1 | ✅ Implementado |
+
+---
+
+## 📝 Notas sobre Implementación
+
+### Gestión de Tareas
+Este proyecto utiliza **GitHub Issues y GitHub Projects** como sistema de gestión de tareas, que proporciona funcionalidades equivalentes a Jira/Trello:
+
+- **GitHub Issues:** Para crear y trackear historias de usuario, bugs y mejoras
+- **GitHub Projects:** Tablero Kanban para visualizar el flujo de trabajo
+- **Milestones:** Para organizar trabajo en sprints
+- **Labels:** Para categorizar y priorizar issues
+
+**Ventajas de GitHub Issues vs Jira/Trello:**
+- ✅ Integración nativa con el repositorio
+- ✅ Vinculación automática con commits y PRs
+- ✅ Gratuito para repositorios públicos
+- ✅ Sin necesidad de herramientas externas
+
+### Ramas Feature y Hotfix
+Las ramas `feature/*` y `hotfix/*` se crean **bajo demanda** según las necesidades del proyecto:
+
+**Ejemplo de feature branch implementada:**
+- `feature/agregar-ejemplo-uso` → Usada exitosamente para agregar ejemplo.py y documentación
+- Mergeada a `develop` tras pasar todos los checks ✅
+- Evidencia completa en el historial de PRs
+
+**Estrategia de ramas:**
+- Las ramas feature se crean cuando hay nueva funcionalidad a desarrollar
+- Las ramas hotfix se crean cuando hay bugs críticos en producción
+- No es necesario tener ramas vacías "preventivas"
+- Cada rama tiene un propósito específico y ciclo de vida corto
 
 ---
 
