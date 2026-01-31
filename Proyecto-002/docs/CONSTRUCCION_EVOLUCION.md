@@ -701,6 +701,6 @@ Las ramas `feature/*` y `hotfix/*` se crean **bajo demanda** según las necesida
 
 ---
 
-**Documento elaborado por:** Erick Medardo Alpusig Maguiña  
+**Documento elaborado por:** Erick Alpusig - Saúl Tualomnbo - Claudio Peñaherrera 
 **Fecha:** Enero 30, 2026  
 **Versión:** 1.0
