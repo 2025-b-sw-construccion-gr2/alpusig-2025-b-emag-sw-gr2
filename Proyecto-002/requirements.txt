@@ -1,0 +1,9 @@
+# Dependencias de desarrollo y testing
+pytest>=7.4.0
+pytest-cov>=4.1.0
+flake8>=6.1.0
+black>=23.7.0
+
+# Dependencias para el build
+setuptools>=68.0.0
+wheel>=0.41.0
