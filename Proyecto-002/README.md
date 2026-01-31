@@ -476,8 +476,6 @@ El proyecto cuenta con **19 pruebas unitarias** que cubren:
 
 ![Historial Actions](https://github.com/ElErick-MG/mi-sitio/blob/dc91d990e6de4053af9ac72eac0f2a1368949f6b/img/ACTION-COMPLETO.png)
 
-*Captura del historial de ejecuciones del pipeline mostrando todas las ejecuciones exitosas.*
-
 ---
 
 ## 📋 Gestión de Historias de Usuario
@@ -499,6 +497,9 @@ Cada historia incluye:
 - Pruebas unitarias mapeadas
 - Definición de Done
 - Trazabilidad código-tests
+
+Ejemplo de como crearlas:
+![Historia de Usuario HU-001](https://github.com/ElErick-MG/mi-sitio/blob/88ae0a561d03c31c28faeca67b8054020f79f7e8/img/historia_usuario.png).
 
 ---
 
