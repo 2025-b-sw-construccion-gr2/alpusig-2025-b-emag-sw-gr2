@@ -501,6 +501,9 @@ Cada historia incluye:
 Ejemplo de como crearlas:
 ![Historia de Usuario HU-001](https://github.com/ElErick-MG/mi-sitio/blob/88ae0a561d03c31c28faeca67b8054020f79f7e8/img/historia_usuario.png).
 
+Tablero de GitHub Issues
+![Tablero de GitHub Issues](https://github.com/ElErick-MG/mi-sitio/blob/ad1f87416104939917b5628386e32b9ae719b760/img/issue.png).
+
 ---
 
 ## 🛠️ Tecnologías Utilizadas
