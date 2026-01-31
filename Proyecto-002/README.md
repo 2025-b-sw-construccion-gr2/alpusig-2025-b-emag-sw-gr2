@@ -8,18 +8,27 @@ Sistema sencillo de gestión de tareas desarrollado en Python que demuestra la i
 
 **Integrantes:** Erick Alpusig - Saúl Tualombo - Claudio Peñaherrera  
 **Fecha:** Enero 2026  
-**Repositorio:** [alpusig-2025-b-emag-sw-gr2](https://github.com/2025-b-sw-construccion-gr2/alpusig-2025-b-emag-sw-gr2)
+**Repositorio:** [alpusig-2025-b-emag-sw-gr2](https://github.com/2025-b-sw-construccion-gr2/alpusig-2025-b-emag-sw-gr2/edit/develop/Proyecto-002)
 
 ---
 
-## 🎯 Objetivo del Proyecto
+## Introducción
 
-Este proyecto tiene dos propósitos principales:
+### Breve descripción del proyecto
 
-1. **Demostrar** un flujo completo de construcción y evolución de software profesional
-2. **Documentar** las estrategias, procesos y herramientas utilizadas en el desarrollo
+El **Sistema de Gestión de Tareas** es una aplicación desarrollada en Python que permite a los usuarios administrar sus tareas diarias de manera eficiente. El proyecto resuelve el problema de la organización personal y seguimiento de actividades pendientes, permitiendo crear, listar, completar y eliminar tareas con facilidad.
 
-El proyecto implementa un sistema funcional de gestión de tareas mientras documenta exhaustivamente todos los aspectos del proceso de desarrollo, desde la arquitectura hasta el despliegue continuo.
+**Contexto:** En el ámbito académico y profesional, la gestión efectiva de tareas es fundamental para la productividad. Este sistema proporciona una solución simple pero completa con validaciones robustas y una arquitectura extensible.
+
+### Objetivo del documento
+
+Este documento tiene como objetivo mostrar cómo se gestionará la **construcción y evolución del software** del Sistema de Gestión de Tareas, incluyendo:
+
+- Estrategias de integración y entrega continua (CI/CD)
+- Flujos de desarrollo y gestión de ramas
+- Procesos de revisión y aprobación de código
+- Gestión de historias de usuario
+- Herramientas y conexiones del ecosistema de desarrollo
 
 ---
 
