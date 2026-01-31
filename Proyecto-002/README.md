@@ -12,14 +12,6 @@ Sistema sencillo de gestión de tareas desarrollado en Python que demuestra la i
 
 ---
 
-## Introducción
-
-### Breve descripción del proyecto
-
-El **Sistema de Gestión de Tareas** es una aplicación desarrollada en Python que permite a los usuarios administrar sus tareas diarias de manera eficiente. El proyecto resuelve el problema de la organización personal y seguimiento de actividades pendientes, permitiendo crear, listar, completar y eliminar tareas con facilidad.
-
-**Contexto:** En el ámbito académico y profesional, la gestión efectiva de tareas es fundamental para la productividad. Este sistema proporciona una solución simple pero completa con validaciones robustas y una arquitectura extensible.
-
 ### Objetivo del documento
 
 Este documento tiene como objetivo mostrar cómo se gestionará la **construcción y evolución del software** del Sistema de Gestión de Tareas, incluyendo:
